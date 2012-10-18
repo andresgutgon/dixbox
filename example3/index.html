@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Dixbox Example 3</title>
+        <style type="text/css">
+            * {
+                padding: 0; margin: 0;
+            }
+            #main {
+                padding: 20px;
+            }
+            h1 {
+                margin-bottom: 10px;
+            }
+            h2 {
+                margin-top: 20px;
+                margin-bottom: 5px;
+            }
+            a {
+                color: #F00;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="main">
+            <h1>DixBox demonstration</h1>
+            <h2>Customizable animation:</h2>
+            <a id="dixbox1" href="ajax.html">Open</a>
+            <h2>Resize modal:</h2>
+            <a id="dixbox2" href="ajax2.html">Open</a>
+            <h2>Animation modal with jQuery Easing Plugin:</h2>
+            <a id="dixbox3" href="ajax.html">Open</a>
+            <h2>Without overlay:</h2>
+            <a id="dixbox4" href="ajax.html">Open</a>
+            <h2>Callbacks:</h2>
+            <a id="dixbox5" href="ajax2.html">Open</a>
+            <h2>Error Ajax:</h2>
+            <a id="dixbox6" href="error.html">Open</a>
+        </div>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script src="../lib/jquery.dixbox.js"></script>
+        <script src="../lib/jquery.dixbox.effects.js"></script>
+        <script src="http://gsgd.co.uk/sandbox/jquery/easing/jquery.easing.1.3.js"></script>
+        <script>
+            $(function () {
+                $('#dixbox1').on('click', function(e) {
+                    $.dixbox(e, {
+                        'effect':       'myCustomAnimation'
+                    });
+                    return false;
+                });
+                $('#dixbox2').on('click', function(e) {
+                    $.dixbox(e, {
+                        'effect':       'slide'
+                        ,'position':    'center center'
+                    });
+                    return false;
+                });
+                $('#dixbox3').on('click', function(e) {
+                    $.dixbox(e, {
+                        'effect':       'slide'
+                        ,'position':    'center center'
+                        ,'easingOn':    'easeInOutBack'
+                        ,'easingOff':   'easeInBack'
+                    });
+                    return false;
+                });
+                $('#dixbox4').on('click', function(e) {
+                    $.dixbox(e, {
+                        'effect':       'slide'
+                        ,'position':    'center center'
+                        ,'modal':       false
+                    });
+                    return false;
+                });
+                $('#dixbox5').on('click', function(e) {
+                    $.dixbox(e, {
+                        'onOpen': function () {
+                            alert('Open!');
+                        }
+                        ,'onComplete': function () {
+                            alert('Complete!');
+                        }
+                        ,'onCompleteResize': function () {
+                            alert('Complete resize!');
+                        }
+                        ,'onClose': function () {
+                            alert('Close!');
+                        }
+                    });
+                    return false;
+                });
+                $('#dixbox6').on('click', function(e) {
+                    $.dixbox(e, {
+                        'onError': function () {
+                            alert('Error!');
+                            $.dixbox.methods.close();
+                        }
+                    });
+                    return false;
+                });
+            });
+
+            jQuery.extend( jQuery.dixbox,
+                {
+                'myCustomAnimation': function () {
+
+                    var pdtb = $.dixbox.dbSize.padding.top + $.dixbox.dbSize.padding.bottom;
+                    var pdlr = $.dixbox.dbSize.padding.left + $.dixbox.dbSize.padding.right;
+                    // Before animate
+                    $.dixbox.dbBeforeAnimate.top =          '50%';
+                    $.dixbox.dbBeforeAnimate.display =      'block';
+                    $.dixbox.dbBeforeAnimate.opacity =      1;
+                    // Size
+                    $.dixbox.dbSize.left =                  - $.dixbox.dbSize.width + pdlr;
+                    $.dixbox.dbSize.marginTop =             - ($.dixbox.dbSize.height + pdtb) / 2;
+                    // Animate Open
+                    $.dixbox.dbAnimateOpen.left =           '50%';
+                    $.dixbox.dbAnimateOpen.marginLeft =     - ($.dixbox.dbSize.width + pdtb) / 2;
+                    // Animate Close
+                    $.dixbox.dbAnimateClose.left =     -    0;
+                    $.dixbox.dbAnimateClose.marginLeft =    - $.dixbox.dbSize.width + pdlr;
+                }
+            });
+        </script>
+    </body>
+</html>
